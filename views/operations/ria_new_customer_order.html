@@ -1,0 +1,34 @@
+{{extend 'layout.html'}}
+
+{{=H1(T("Edit order number") + " " + str(order.id))}}
+
+{{if contact is not None:}}
+  {{try:}}
+    <h3>{{=T("Customer")}}: {{=customer.legal_name}}</h3>
+  {{ except (AttributeError, KeyError):}}
+    <h3>{{=T("No customer specified")}}</h3>
+  {{ pass }}
+  <span>{{=reset}}</span> <span>{{=T("Order number")}}: {{=order.operation_id}}</span> | <span>{{=T("Code")}}: {{=order.code}}</span> | <span>{{=T("Description")}}: {{=order.description}}</span> | <span>{{=T("Date")}}: {{=str(order.posted)}}</span>  | <span>{{=A(T("Customer control panel"), _href=URL(a=config.APP_NAME, c="crm", f="customer_panel"))}}</span>
+  {{=HR()}}
+  <!-- Add order type options to sqlform object-->
+    {{for k, v in order_options.iteritems(): }}
+      {{if v["checked"]:}}
+        {{ form[0].insert(-1, TR(LABEL(v["label"]), XML("<input type=radio name=%s value=%s checked />" % (v["name"], v["value"])))) }}
+      {{else:}}
+        {{ form[0].insert(-1, TR(LABEL(v["label"]), XML("<input type=radio name=%s value=%s />" % (v["name"], v["value"])))) }}
+      {{pass}}
+    {{pass}}
+  <!-- End Add order type options to sqlform object-->
+  {{=form}}
+  {{=HR()}}
+  <h3>{{=T("Insert order element")}}</h3>
+  {{=A(T("Add an item"), _href=URL(a=config.APP_NAME, c="operations", f="new_customer_order_element"))}}
+
+{{else:}}
+
+  {{=P(T("You have not specified you firm's TAX ID. Please visit the"), A(EM(T("Post registration form")), _href=URL(a=config.APP_NAME, c="registration", f="post_register_specify_firm")), T("and try again"))}}
+
+{{pass}}
+
+{{=H3(T("List of order elements"))}}
+{{ =SQLTABLE(order_list, columns=["movement.movement_id", "movement.description", "movement.concept_id", "movement.quantity", "movement.posted"], headers={"movement.movement_id": T("Edit"), "movement.description": T("Description"),"movement.concept_id": T("Product"),"movement.quantity": T("Qty"), "movement.posted": T("Posted")}, linkto=URL(a=config.APP_NAME, c="operations", f="new_customer_order_modify_element.html")) }}

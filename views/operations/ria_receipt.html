@@ -1,0 +1,12 @@
+{{extend 'layout.html'}}
+<h1>{{=T("Receipt number")}} {{=session.operation_id}}</h1>
+{{=A(T("Receipts list"), _href=URL(a=config.APP_NAME, c="operations", f="list_receipts"))}}
+{{=reset_receipt_form}}
+{{=process_receipt_form}}
+{{=receipt_form}}
+{{=HR()}}
+{{=H3(T("Checks"))}}
+{{=LOAD(a=config.APP_NAME, , f="receipt_checks.load", ajax=True)}}
+{{=HR()}}
+{{=H3(T("Cash/transfer"))}}
+{{=LOAD(a=config.APP_NAME, c="operations", f="receipt_items.load", ajax=True)}}

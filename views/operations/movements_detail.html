@@ -1,0 +1,56 @@
+{{extend 'layout.html'}}
+<h1>{{=T("Movements (Operations)")}}</h1>
+
+{{try:}}
+  <h3>{{=operation.document_id.description}} {{=operation.operation_id}}</h3>
+{{ except AttributeError: }}
+  <h3>{{=T("Document")}} {{=operation.operation_id}}</h3>
+  <h3>{{=T("No document type specified")}}</h3>
+{{ pass }}
+
+{{=HR()}}
+{{try:}}
+{{=T("Supplier")}}: {{=supplier.legal_name}}. {{=T("TAX ID")}}: {{=supplier.tax_identification}} | {{=T("Customer")}}: {{=customer.legal_name}}. {{=T("TAX ID")}}: {{=customer.tax_identification}} | {{ =A(T("Customer current account"), _href=URL(a=config.APP_NAME, c="crm", f="customer_current_account_status", args=["customer", operation.customer_id])) }} | {{ =A(T("Subcustomer current account"), _href=URL(a=config.APP_NAME, c="crm", f="customer_current_account_status", args=["subcustomer", operation.subcustomer_id])) }}
+{{=HR()}}
+{{except (ValueError, KeyError, TypeError, AttributeError):}}
+{{=T("Error trying to get the operation customer/supplier data from database")}}
+{{pass}}
+<h3>{{=T("Price list")}}:
+{{if price_list is not None:}}
+{{=price_list.description}}
+{{else:}}
+None selected
+{{pass}}
+</h3>
+
+{{=A(T("Modify header"), _href=URL(a=config.APP_NAME, c="operations", f="movements_modify_header"))}} | {{=A(T("Add item"), _href=URL(a=config.APP_NAME, c="operations", f="movements_add_item"))}} | {{=A(T("Add payment method"), _href=URL(a=config.APP_NAME, c="operations", f="movements_add_payment_method"))}} | {{=A(T("Add article"), _href=URL(a=config.APP_NAME, c="operations", f="movements_articles"))}} | {{=A(T("Add check"), _href=URL(a=config.APP_NAME, c="operations", f="movements_add_check"))}} | {{=A(T("Add tax"), _href=URL(a=config.APP_NAME, c="operations", f="movements_add_tax"))}} | {{=A(T("Current account"), _href=URL(a=config.APP_NAME, c="operations", f="movements_current_account_concept"))}} | {{=A(T("Discount/Surcharges"), _href=URL(a=config.APP_NAME, c="operations", f="movements_add_discount_surcharge"))}} | {{=A(T("Process operation"), _href=URL(a=config.APP_NAME, c="operations", f="movements_process"))}} | {{=A(T("Select price list"), _href=URL(a=config.APP_NAME, c="operations", f="movements_price_list"))}}
+
+{{=HR()}}
+<h3>{{=T("Options")}}</h3>
+<ul>
+<li>
+{{=T("Operation")}}
+{{if update_stock == True:}}
+ {{=T("updates stock")}}
+{{elif update_stock == False:}}
+ {{=T("does not update stock")}}
+{{pass}} ({{=A(T("Change"), _href=URL(a=config.APP_NAME, c="operations", f="movements_option_update_stock"))}})
+</li>
+<li>
+{{=T("Warehouse")}}: {{=warehouse}} ({{=A(T("Change"), _href=URL(a=config.APP_NAME, c="operations", f="movements_select_warehouse"))}})
+</li>
+<li>
+{{=T("Taxes are")}}
+{{if update_taxes == True:}}
+ {{=T("updated")}}
+{{elif update_taxes == False:}}
+ {{=T("not updated")}}
+{{pass}} ({{=A(T("Change"), _href=URL(a=config.APP_NAME, c="operations", f="movements_option_update_taxes"))}})
+</li>
+{{=LI(A(T("Print this document"), _href=URL(a=config.APP_NAME, c="output", f="operation", args=["operation", operation.operation_id])))}}
+</ul>
+
+{{=BEAUTIFY(movements)}}
+
+{{=HR()}}
+{{=T("Total amount")}}: {{=operation.amount}}

@@ -1,0 +1,31 @@
+{{extend 'layout.html'}}
+<h1>{{=T("Operations list")}}</h1>
+{{=form}}
+
+{{ if len(rows) <= 0: }}
+  {{ =H3(T("No results found")) }}
+{{ else: }}
+  {{
+    """ List of operations"""
+    columns = ["operation.operation_id", "operation.code", 
+               "operation.description", "operation.customer_id", 
+               "operation.subcustomer_id", "operation.supplier_id",
+               "operation.document_id", "operation.posted"]
+    headers = {"operation.operation_id": "Edit",
+               "operation.code": "Code",
+               "operation.description": "Description",
+               "operation.customer_id": "Customer",
+               "operation.subcustomer_id": "Subcustomer",
+               "operation.supplier_id": "Supplier",
+               "operation.document_id": "Document", 
+               "operation.posted": "Posted"}
+  }}
+  {{ table = SQLTABLE(rows, columns=columns, headers=headers,
+                      linkto=URL(a=config.APP_NAME, c="operations",
+                      f="movements_select")) }}
+  {{ for element in table.element("tbody").elements("tr"): }}
+    {{ link = element[0][0] }}
+    {{ link.append(IMG(_src="images/document--pencil.png")) }}
+  {{ pass }}
+  {{ =table }}
+{{ pass }}

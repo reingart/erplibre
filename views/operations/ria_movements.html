@@ -1,0 +1,18 @@
+{{extend 'layout.html'}}
+<h1>{{=message}}</h1>
+{{=HR()}}
+<span>{{=A(T("List of operations"), _href=URL(a=config.APP_NAME, c="operations", f="index"))}}</span> | <span>{{=A(T('New installment'), _href=URL(a=config.APP_NAME, c="operations", f="operation_installment") )}}</span> | <span>{{=A(T('Installments'), _href=URL(a=config.APP_NAME, c="fees", f="list_installments") )}}</span>
+<span>{{=reset_operation_form}}</span>
+
+{{if process_operation_form:}}
+  <span>{{=process_operation_form}}</span>
+{{pass}}
+
+{{=form}}
+{{=HR()}}
+<h3>{{=T("Insert movements element")}}</h3>
+<span>{{ =add_item }}</span>
+
+{{=HR()}}
+{{=H3(T("List of operation elements"))}}
+{{ =movements_list }}

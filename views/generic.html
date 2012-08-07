@@ -1,0 +1,3 @@
+{{ extend 'layout.html' }}
+<h3>{{ =url_data[2].replace("_", " ").capitalize() }}</h3>
+{{=BEAUTIFY(config.response._vars)}}

@@ -1,0 +1,9 @@
+{{ extend "layout.html" }}
+{{ =H1(T("System tables"))}}
+
+{{ for table_group in table_groups.keys(): }}
+  {{=H3(T(table_group.replace("_", " ").capitalize()))}}
+  {{ for table_name in table_groups[table_group]:}}
+    {{ =SPAN(EM(A(T(table_name.replace("_", " ").capitalize()), _href=URL(a=config.APP_NAME, c="appadmin", f="select", args=[table_name,])))) }} &nbsp;
+  {{ pass }}
+{{ pass }}

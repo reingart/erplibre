@@ -1,0 +1,13 @@
+# STARTING ERP Libre DESKTOP INTERFACE
+
+From erplibre (desktop application) path run:
+
+>python main.py
+
+# ERP Libre WEB2PY INTERFACE:
+
+By default the web2py app is installed as "erplibre" in your web2py applications folder
+Some web2py implementations need to restart the web server to detect the new installed application.
+
+For more info please visit the project page:
+http://code.google.com/p/erplibre

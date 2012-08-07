@@ -1,0 +1,5 @@
+{{extend 'layout.html'}}
+<h1>{{=T("Operation processing result")}}</h1>
+{{=A(T("Movements detail"), _href=URL(a=config.APP_NAME, c="operations", f="movements_detail"))}} | {{=A(T("Movements list"), _href=URL(a=config.APP_NAME, c="operations", f="movements_list"))}}
+<br />
+{{=message}}

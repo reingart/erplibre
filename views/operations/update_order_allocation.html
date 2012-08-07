@@ -1,0 +1,6 @@
+{{extend 'layout.html'}}
+<h1>{{=T("Update order allocation")}}</h1>
+{{=A(T("New packing slip from this allocation"), _href=URL(a=config.APP_NAME, c="operations", f="packing_slip", args = ["order_allocation", session.order_allocation_id]))}}
+{{=form}}
+{{=HR()}}
+{{=movements}}

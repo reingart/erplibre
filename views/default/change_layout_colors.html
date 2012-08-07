@@ -1,0 +1,32 @@
+{{ extend "layout.html" }}
+{{ =session.form }} 
+
+<h3>Colors</h3>
+<table>
+{{ counter = 1 }}
+{{ left = 4 }}
+
+{{ tmp_colors = [ c for c in session.layout_colors ] }}
+{{ tmp_colors.reverse() }}
+
+{{ while len(tmp_colors) > 0: }}
+<tr>
+{{ for x in range(4): }}
+  {{try:}}
+    {{ color = tmp_colors.pop() }}
+    {{ left -= 1 }}
+    <td>{{=color}}</td><td bgcolor="{{=color}}" width="10%"></td>
+    {{ if left == 0: }}
+      {{ left = 4 }}
+    {{ pass }}
+
+  {{except IndexError:}}
+    {{ for x in range(left): }}
+      <td></td><td></td>
+    {{ pass }}
+  {{pass}}
+
+{{ pass}}
+</tr>
+{{ pass }}
+</table>

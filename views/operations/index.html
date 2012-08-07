@@ -1,0 +1,7 @@
+{{extend 'layout.html'}}
+<h1>{{=message}}</h1>
+<span>{{=A(T("RIA Create/Edit operations"), _href=URL(a=config.APP_NAME, c="operations", f="ria_movements"))}}</span> | <span>{{=A('New fee', _href=URL(a=config.APP_NAME, c='fees', f='create_fee'))}}</span> | <span>{{=A('Fees', _href=URL(a=config.APP_NAME, c='fees', f='list_fees'))}}</span>
+{{=H3("Operations list")}}
+
+{{=SQLTABLE(operations, columns=["operation.operation_id", "operation.code","operation.description","operation.posted"], headers={
+"operation.operation_id": T("Edit"), "operation.code": T("Code"),"operation.description": T("Description"),"operation.posted": T("Posted")}, linkto=URL(a=config.APP_NAME, c="operations", f="ria_movements"))}}

@@ -1,0 +1,12 @@
+{{extend 'layout.html'}}
+<h1>{{=T("Order allocation")}}</h1>
+{{=A(T("List order allocation operations"), _href=URL(a=config.APP_NAME, c="operations", f="list_order_allocations"))}}
+{{if len(session.allocations_completed) > 0:}}
+<h3>{{=T("The following operations were created")}}</h3>
+{{=BEAUTIFY([A(T("Order allocation") + " %s" % str(o), _href=URL(a=config.APP_NAME, c="operations", f="update_order_allocation", args=["operation", o])) for o in session.allocations_completed])}}
+{{=HR()}}
+{{=A(T("New order allocation"), _href=URL(a=config.APP_NAME, c="operations", f="order_allocation"))}}
+{{else:}}
+{{=form}}
+{{pass}}
+{{session.allocations_completed = set()}}

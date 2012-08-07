@@ -1,0 +1,24 @@
+option.option_id,option.name,option.args,option.description,option.type,option.represent,option.requires,option.value
+1,customer_allowed_orders,<NULL>,Ther order documents exposed to the customer,list: reference document,<NULL>,<NULL>,| 3 |
+2,customer_default_order,<NULL>,Default order document selected,reference document,<NULL>,<NULL>,3
+3,offset_account____account__411____formkey__31ea3005-a9ae-4aea-a8e3-92c6839c8461___document__1____formname__offset_form___payment_terms__1,<NULL>,<NULL>,string,<NULL>,<NULL>,115
+4,offset_account____account__111___document__1___payment_terms__9,<NULL>,<NULL>,string,<NULL>,<NULL>,100
+5,offset_account____account__111___document__101___payment_terms__2,<NULL>,<NULL>,string,<NULL>,<NULL>,115
+6,current_account_payment,<NULL>,Record id for current account in table payment_terms,integer,,,1
+7,offset_concept____document__140___type__P___payment_terms__9,<NULL>,<NULL>,string,<NULL>,<NULL>,130000
+8,offset_concept____document__30___type__P___payment_terms__2,<NULL>,<NULL>,string,<NULL>,<NULL>,110101
+9,sales_check_input_concept,<NULL>,Concept record to apply to check payments in sales,integer,,,110101
+10,quota_frequence,<NULL>,Number of days for current account quotas,integer,,,30
+11,default_supplier_id,<NULL>,Default supplier (for sistem's owner),integer,,,-1
+12,default_customer_id,<NULL>,Default customer (for system owner),integer,,,-1
+13,purchases_check_input_concept,<NULL>,Concept id for checks in purchase operations,integer,,,111305
+14,purchases_payment_point_of_sale_id,<NULL>,Purchases point of sale for payments,integer,,,5
+15,sales_payment_point_of_sale_id,<NULL>,Sales point of sale for payments,integer,,,4
+16,sales_payment_default_payment_terms_id,<NULL>,Default sales payment payment terms id,integer,,,13
+17,purchases_payment_default_payment_terms_id,<NULL>,Default payment terms is for purchases payments,integer,,,14
+18,sales_receipt_offset_concept_id,<NULL>,Offset concept id for sales receipts,integer,,,130000
+19,purchases_receipt_offset_concept_id,<NULL>,Offset concept id for purchases receipts,integer,,,140000
+20,receipt_default_offset_concept_id,<NULL>,Default offset concept id for receipts,integer,,,110001
+21,purchases_payment_terms_concept_id,1,Purchases Concept id for a given payment terms record,integer,,,140000
+22,user_2_layout_fgcolor,<NULL>,<NULL>,string,<NULL>,<NULL>,#00FF99
+23,user_2_layout_bgcolor,<NULL>,<NULL>,string,<NULL>,<NULL>,#003399

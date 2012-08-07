@@ -1,0 +1,11 @@
+{{extend 'layout.html'}}
+<h1>{{=T("Packing slip")}}</h1>
+{{if packing_slip_id is not None:}}
+{{=A(T("Edit movements"), _href=URL(a=config.APP_NAME, c="operations", f="movements_detail", args=["operation", packing_slip_id]))}}
+{{=A(T("Reset form"), _href=URL(a=config.APP_NAME, c="operations", f="reset_packing_slip"))}}
+{{pass}}
+{{=form}}
+{{=HR()}}
+{{if movements is not None:}}
+{{=movements}}
+{{pass}}

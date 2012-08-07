@@ -1,0 +1,9 @@
+{{extend 'layout.html'}}
+<h1>{{=T("Articles list")}}</h1>
+{{ =back }}
+{{ if table is not None:}}
+  {{ =table }}
+{{ else: }}
+  {{ =P(T("No records found")) }}
+{{ pass }}
+

@@ -1,0 +1,6 @@
+{{extend 'layout.html'}}
+<h2>{{=T("Post-registration form")}}</h2>
+{{=LABEL(T("Please insert your firm's tax id"))}}
+{{=form}}
+{{=H3(T("Valid firm tax id's"))}}
+{{=UL([LI("%s %s" % (el.tax_identification, el.description)) for el in db(db.contact).select() if el.tax_identification])}}

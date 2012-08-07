@@ -1,0 +1,11 @@
+{{extend 'layout.html'}}
+<h1>{{=T("Customer Panel")}}</h1>
+{{if customer:}}
+<span>{{=T("Firm")}}: {{=customer.legal_name}}</span> | <span>{{=T("TAX ID")}}: {{=customer.tax_identification}}</span> | <span>{{=T("Sales contact")}}: {{=customer.salesperson_id}}</span> | <span>{{=A(T("Create/Edit orders"), _href=URL(a=config.APP_NAME, c="operations", f="ria_new_customer_order"))}}</span>
+{{=H3(T("Order list"))}}
+{{=SQLTABLE(customer_orders, columns=["operation.operation_id", "operation.code","operation.description","operation.posted"], headers={
+"operation.operation_id": T("Edit"), "operation.code": T("Code"),"operation.description": T("Description"),"operation.posted": T("Posted")}, linkto=URL(a=config.APP_NAME, c="operations", f="ria_new_customer_order"))}}
+<!-- {{=BEAUTIFY(response._vars)}} -->
+{{else:}}
+{{=P(T("You have not specified you firm's TAX ID. Please visit the"), A(EM(T("Post registration form")), _href=URL(a=config.APP_NAME, c="registration", f="post_register_specify_firm")), T("and try again"))}}
+{{pass}}

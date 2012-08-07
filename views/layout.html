@@ -1,0 +1,79 @@
+<html>
+
+{{ if config.session.get("layout_colors_background", None) is not None: }}
+  {{ bgcolor = config.session.layout_colors_background }}
+{{ else: }}
+  {{try:}}
+    {{ session.layout_colors_background = bgcolor = db(db.option.name == "user_%s_layout_bgcolor" % config.auth.user.email).select().first().value }}
+  {{ except (AttributeError, IndexError, KeyError): }}
+    {{ bgcolor = "#FFFFFF" }}
+  {{ pass }}
+{{ pass }}
+
+{{ if config.session.get("layout_colors_links", None) is not None: }}
+  {{ lnkcolor = config.session.layout_colors_links }}
+{{ else: }}
+  {{try:}}
+    {{ session.layout_colors_links = lnkcolor = db(db.option.name == "user_%s_layout_lnkcolor" % config.auth.user.email).select().first().value }}
+  {{ except (AttributeError, IndexError, KeyError): }}
+    {{ lnkcolor = "#777777" }}
+  {{ pass }}
+{{ pass }}
+
+{{ if config.session.get("layout_colors_foreground", None) is not None: }}
+  {{ fgcolor = config.session.layout_colors_foreground }}
+{{ else: }}
+  {{try:}}
+    {{ session.layout_colors_foreground = fgcolor = db(db.option.name == "user_%s_layout_fgcolor" % config.auth.user.email).select().first().value }}
+  {{ except (AttributeError, IndexError, KeyError): }}
+    {{ fgcolor = "#000000" }}
+  {{ pass }}
+{{ pass }}
+
+<body bgcolor="{{=bgcolor}}" text="{{=fgcolor}}" link="{{=lnkcolor}}">
+{{try:}}
+  {{ user = config.auth.user }}
+  {{ if user is None:}}
+    {{ user = None }}
+    {{ user_mail = T("not logged in") }}
+    {{ firm = None }}
+  {{ else: }}
+    {{ user_mail = user.email }}
+    {{ contact = db(db.contact_user.user_id == config.auth.user_id).select().first().contact_id }}
+    {{ firm = db(db.contact.contact_id == contact).select().first().description }}
+  {{pass}}
+{{except (AttributeError, KeyError, ValueError), e:}}
+  {{ =P(T("Could not load the firm contact information. "), T("You may need to specify your user account firm (specify firm)")) }}
+  {{ # print "An error occurred while retrieving user or contact data: " + str(e) }}
+  {{ user = None }}
+  {{ user_mail = T("not logged in") }}
+  {{ firm = None }}
+{{pass}}
+
+{{
+=DIV(
+SPAN(IMG(_src="images/erplibre-logo-100.png")),
+SPAN(XML("&nbsp;&nbsp;&nbsp;&nbsp;")),
+SPAN(T("Active user: ") + user_mail),
+SPAN(" | "),
+SPAN(A(T("Register"), _title="Register\tCtrl+Alt+1", _href=URL(a=config.APP_NAME, c="default", f="user", args=["register", ],
+vars={"_next": URL(a=config.APP_NAME, c="default", f="index", encode_embedded_slash=False)}, encode_embedded_slash=False ))),
+SPAN(" | "),
+SPAN(A(T("Specify firm") + " (" + str(firm) + ")",  _title="Specify firm\tCtrl+Alt+2", _href=URL(a=config.APP_NAME, c="registration", f="post_register_specify_firm"))),
+SPAN(" | "),
+SPAN(A(T("Login"),  _title="Login\tCtrl+Alt+3", _href=URL(a=config.APP_NAME, c="default", f="user", args=["login", ],
+vars={"_next": URL(a=config.APP_NAME, c="default", f="index", encode_embedded_slash=False)}, encode_embedded_slash=False 
+))),
+SPAN(" | "),
+SPAN(A(T("Logout"),  _title="Logout\tCtrl+Alt+4", _href=URL(a=config.APP_NAME, c="default", f="user", args=["logout", ],
+vars={"_next": URL(a=config.APP_NAME, c="default", f="index", encode_embedded_slash=False)}, encode_embedded_slash=False
+))))
+}}
+
+{{=menu}}
+<br />
+<br />
+{{ include }}
+</body>
+</html>
+

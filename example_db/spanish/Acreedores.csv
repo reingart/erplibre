@@ -1,0 +1,13 @@
+"AcreedorID","Codigo","Acreedor","Razon","IVA","CUIT","Direccion","CP","Localidad","ProvinciaID","Telefono","Fax","SituacionID","Observaciones","Replica","JurisdiccionID"
+-1,"-1","Emporio nacional de la madera S.A.","Emporio nacional de la madera (uso interno)",1,,,,,,,,1,,"0",0
+0,,"Proveedores Varios","Proveedores Varios",0,,,,,0,,,1,,"0",0
+3,"3","Carlos V","Carlos V",4,,,,,0,,,1,,"0",0
+4,"4","Arturo","Arturo",0,,,,,0,,,1,,"0",0
+5,"5","Lanzarote","Lanzarote",0,,,,,0,,,1,,"0",0
+6,"6","Conejo","Conejo",0,,,,,0,,,1,,"0",0
+7,"7","El caballero negro","El caballero negro",0,,,,,0,,,1,,"0",0
+8,"8","Brian","Brian",0,,,,,0,,,1,,"0",0
+9,"9","Platón","Platón",0,,,,,0,,,1,,"0",0
+10,"10","Merlin","Merlin",0,,,,,2,,,1,,"0",0
+11,"11","Spam","Spam",0,,,,,0,,,1,,"0",0
+12,"12","El pescado","El pescado",1,,,,,0,,,1,,"0",0

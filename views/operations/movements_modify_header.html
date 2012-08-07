@@ -1,0 +1,9 @@
+{{extend 'layout.html'}}
+{{ if config.session._submitted_form_message is not None:}}
+  {{ =H3(message) }}
+  {{ config.session._submitted_form_message = None }}
+{{ pass }}
+{{=A(T("Edit"), _href=URL(a=config.APP_NAME, c="operations", f="movements_modify_header"))}} | {{=A(T("Operation detail"), _href=URL(a=config.APP_NAME, c="operations", f="movements_detail"))}} | {{=A(T("Movements list"), _href=URL(a=config.APP_NAME, c="operations", f="movements_list"))}}
+{{=HR()}}
+<h1>{{=T("Modify operation number") + " " + str(session.operation_id)}}</h1>
+{{=form}}

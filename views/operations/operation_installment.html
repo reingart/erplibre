@@ -1,0 +1,10 @@
+{{extend 'layout.html'}}
+<h1>{{=T("Operation installment")</h1>
+{{=form}}
+{{if installment:}}
+{{=HR()}}
+<h3>{{=T("Installment")}}</h3>
+{{=SQLFORM(db.installment, session.installment_id, readonly=True)}}
+{{=HR()}}
+<h3>{{=T("Total")}}: {{=total}}</h3>
+{{pass}}

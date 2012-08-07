@@ -1,0 +1,58 @@
+This application intends to be a simple and functional ERP system, targeted
+to Small and Medium Enterprises (SME).
+
+Copyright (C) 2011  Sistemas Ágiles
+
+The project wiki including the user manual can be found at the project page:
+http://code.google.com/p/erplibre.wiki
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+-------------------------------------------------------------------------------
+
+ERP Libre is a migration/rewrite of a own legacy application made in Visual
+Basic classic, and the former was used in a wide variety of bussiness (retail,
+manufacturing, services, education, associations, etc.)
+
+Based on a double-entry bookkeeping system, uses a relational model to represent
+"Documents" (invoices, receips, deposit slip, etc.) detailing financial
+transactions ("operations"), that are instantaneous recorded ("movements" in a
+unified Sales/Cash/Bank/Purchase/etc. book using "concepts" -accounts details-),
+and later can be totaled and the summaries posted into the journal/ledger.
+
+We think this approach is superior to an object-oriented model (for example,
+having rigid classes like Invoice, Sales Orders, Parts, etc.), and has proven
+to be more flexible to adapt to changing requeriments and new reporting needs.
+
+Altough it can be adapted to "Anglo-Saxon" Financial Accounting and Reporting
+standards, this application is initially based on "Continental Accounting"
+(specifically "Latin Accounting" of Argentina), so, expect to see things in a
+different/unusual way (specially if you are from UK, USA or related countries),
+the process may vary, but the results should be the same.
+
+Full internationalization will be supported, but spanish is our main language,
+so there may be errors or inaccuracies with our written English.
+
+Developed with web2py.
+
+This new application will be licensed using GNU AFFERO GPL v 3 (see LICENSE)
+
+The old legacy application is (C) 2004 Mariano Reingart - All Rights Reserved.
+As it was closed source using propietary technologies, its code will not be
+publicly released (only documentation and manuals needed to do development).
+
+-------------------------------------------------------------------------------
+
+Note on images (main window screen and setup logo):
+copyright © 2011 Sistemas Ágiles - All rights reserved

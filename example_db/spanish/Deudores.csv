@@ -1,0 +1,12 @@
+"DeudorID","Codigo","Deudor","Razon","IVA","CUIT","DNI","Direccion","CP","Localidad","ProvinciaID","Pais","Fax","Telefono","CondicionPagoID","ListaPrecioID","VendedorID","CtaCte","SituacionID","GrupoID","Observaciones","LugarEntrega","AcreedorIDTransporte","Transporte","Contacto","NroProveedor","Factura","Alta","Replica","Baja","LimiteCC","LimiteCH","JurisdiccionID"
+-1,-1,"Emporio Nacional de la Madera S.A.","Emporio nacional de la Madera S.A.",1,"20-05776488-8",,"Av. Gral. Paz 3883",2000,1,0,,,,1,1,,"S",1,1,,,,,,,,,"0",,,,
+0,0,"Consumidor Final",,1,,,,2000,1,0,,,,1,,,"S",1,1,,,,,,,,,"0",,,,
+1,1,"FABRICA","FABRICA",1,"30-58650747-1",,"AV GRAL PAZ 3883 CIUDAD DE LA PAZ",2000,1,0,,,,1,1,,"S",1,1,,,,,,,,,"0",,,,
+100,100,"AZCU ENARGAS S.A","AZCU Y ENARGAS S.A",1,"30-10259541-8",,"CORRIENTES 4403 - CAP FED",2000,1,0,,,,1,1,,"S",1,1,,,,,,,,,"0",,,,
+101,101,"RAYA BOS S.A","RAYA BOS S.A",1,"20-20126460-3",,"BELAUSTEGUI 3231 - CAP FED",2000,1,0,,,,1,1,,"S",1,1,,,,,,,,,"0",,,,
+700,700,"AMALFI EMILIO","AMALFI EMILIO",1,"20-12010015-5",,"PUEYRREDON 22307 - CAP FED",2000,1,0,,,,1,1,,"S",1,1,,,,,,,,,"0",,,,
+300,300,"DERQUI DANIEL HORACIO","DERQUI DANIEL HORACIO",1,"20-11537297-3",,"SARMIENTO 478 - CAP FED",2000,1,0,,,,1,1,,"S",1,1,,,,,,,,,"0",,,,
+500,500,"BALAZAR MORENO","BALAZAR MORENO",1,"28-13472402-1",,"AV. LIBERTADOR 16444 - MORENO - BS AS",2000,1,0,,,,1,1,,"S",1,1,,,,,,,,,"0",,,,
+102,102,"EURNEQUIÁN MARIA INES","EURNEQUIÁN MARIA INES",1,"20-18809382-6",,"JULIAN ALVAREZ 107 - CAP FED",2000,1,0,,,,1,1,,"S",1,1,,,,,,,,,"0",,,,
+103,103,"PAZZARIAN HENRY SEGUNDO","PAZZARIAN HENRY SEGUNDO",1,"30-69468945-4",,"RIVADAVIA 499 - CAP FED",2000,1,0,,,,1,1,,"S",1,1,,,,,,,,,"0",,,,
+301,301,"BALTAZAR MEGASTO","BALTAZAR MEGASTO",1,"30-58650747-1",,"SALGUERO 4835 P.9 - CAP FED",2000,1,0,,,,1,1,,"S",1,1,,,,,,,,,"0",,,,

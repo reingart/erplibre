@@ -1,0 +1,15 @@
+{{extend 'layout.html'}}
+<h1>{{=T("Current account report")}}</h1>
+{{=query_form}}
+{{if operations is not None:}}
+{{=HR()}}
+
+{{if customer is not None:}}
+<h3>{{=T("Customer")}}: {{ =customer.description }}</h3>
+{{pass}}
+
+{{=operations}}
+{{=T("Total debt")}}: {{=total_debt}}
+{{pass}}
+
+{{ session.total_debt = session.q = session.customer_id = session.subcustomer_id = None }}

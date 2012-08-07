@@ -1,0 +1,8 @@
+"PrecioID","ConceptoID","ListaPrecioID","RubroID","VendedorID","DeudorID","AcreedorID","GrupoID","SituacionID","FondoID","TarifaID","PagoID","ComprobanteID","Gravado","IVA","Tipo","Valor","Calcular","Operacion","Origen","Condicion","Cantidad1","Cantidad2","Discriminar","ID","Prioridad","Replica","AlicuotaIVA"
+0,0,1,1,1,1,1,1,1,1,1,1,1,0,0,0,10,0,0,0,0,0,0,0,0,0,0,1
+1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,20,0,0,0,0,0,0,0,0,0,0,1
+48,48,1,1,1,1,1,1,1,1,1,1,1,0,0,0,30,0,0,0,0,0,0,0,0,0,0,1
+49,49,1,1,1,1,1,1,1,1,1,1,1,0,0,0,40,0,0,0,0,0,0,0,0,0,0,1
+60,60,1,1,1,1,1,1,1,1,1,1,1,0,0,0,50,0,0,0,0,0,0,0,0,0,0,1
+84,84,1,1,1,1,1,1,1,1,1,1,1,0,0,0,60,0,0,0,0,0,0,0,0,0,0,1
+85,85,1,1,1,1,1,1,1,1,1,1,1,0,0,0,70,0,0,0,0,0,0,0,0,0,0,1

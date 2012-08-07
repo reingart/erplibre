@@ -1,0 +1,21 @@
+{{ extend "layout.html" }}
+{{=H3(T("Setup"))}}
+{{ if "message" in vars.keys(): }}
+{{ =P(vars["message"].capitalize()) }}
+{{ pass }}
+
+{{ if first_run_form is not None: }}
+  {{ =P(T("Please create an administrative user"))}}
+  {{ =first_run_form }}
+{{ else: }}
+  {{ if config.auth.user is not None:}}
+    {{=H5(T("Current language") + ": " + language)}}
+    {{=BEAUTIFY(actions)}}
+
+<h3>{{=T("HTML panel")}}</h3>
+{{ =A(T("Layout colors"), _title="&Layout colors\tCtrl+L", _href=URL(a=config.APP_NAME, c='default',f='change_layout_colors')) }}<br />
+{{ =A(T("Set colors as default"), _href=URL(a=config.APP_NAME, c='default',f='set_default_layout_colors')) }}
+  {{ else: }}
+    {{ =P(T("Please login as admin for setup options")) }}
+  {{ pass }}
+{{ pass }}
