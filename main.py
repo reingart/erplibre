@@ -501,7 +501,7 @@ if __name__ == "__main__":
         config.imapdb = None
 
     # Connection example for PostgreSQL database (set this at installation as DB_URI)
-    # or modify the value at [desktopapp]/config.ini and [web2pyapp]/webappconfig.ini
+    # or modify the value at [desktopapp]/config.ini and [web2pyapp]/config.ini
     # specify folder path as webapp path + "databases"
     # config.db = DAL("postgres://erplibre:erplibre@localhost:5432/erplibre",
     #                 folder=config.DATABASES_FOLDER)

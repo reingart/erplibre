@@ -333,19 +333,19 @@ language = LANGUAGE, no_web2py_app = NO_WEB2PY_APP):
     # write config values to config.ini
     print "Writing config values to config.ini"
 
-    with open("config.ini", "w") as config:
+    with open("config.ini", "wb") as config:
         for k, v in ini_values.iteritems():
             config.write(k + "=" + str(v) + "\n")
 
-    # write config values to webappconfig.ini
+    # write config values to config.ini
     # for path search purposes mostly
     if not NO_WEB2PY_APP:
         print "Writing config values to web2py app"
         if ini_values["WEB2PY_APP_FOLDER"] != "":
             # TODO: and ...FOLDER has a valid path
-            with open(os.path.join(ini_values["WEB2PY_APP_FOLDER"], "private", "webappconfig.ini"), "wb") as webappconfig:
+            with open(os.path.join(ini_values["WEB2PY_APP_FOLDER"], "private", "config.ini"), "wb") as config:
                 for k, v in ini_values.iteritems():
-                    webappconfig.write(k + "=" + str(v) + "\n")
+                    config.write(k + "=" + str(v) + "\n")
 
     # exit with status 0 and message
     print "Installation finished."
@@ -522,8 +522,10 @@ def start_install(evt):
             starting_frame.SetStatusText( \
             "now copying the web2py app")
 
-            extract("web2py.app.erplibre.w2p", os.path.join(\
-            WEB2PY_PATH, "applications", WEB2PY_APP_NAME))
+            extract(os.path.join(PRIVATE_FOLDER,
+                                 "web2py.app.erplibre.w2p"),
+                    os.path.join(WEB2PY_PATH, "applications",
+                                 WEB2PY_APP_NAME))
 
             starting_frame.gauge.SetValue(40)
             starting_frame.SetStatusText( \
@@ -712,13 +714,12 @@ elif "INSTALL" in command_args:
                 # copy web2py.app.erplibre.w2p files
                 # to web2py applications folder
                 print "Writing web2py app to disk"
-
-                extract("web2py.app.erplibre.w2p", os.path.join(WEB2PY_PATH, \
-                "applications", WEB2PY_APP_NAME))
-
-
+                extract(os.path.join(PRIVATE_FOLDER,
+                                 "web2py.app.erplibre.w2p"),
+                        os.path.join(WEB2PY_PATH,
+                                     "applications",
+                                      WEB2PY_APP_NAME))
                 print "App installation complete. Please restart web2py"
-
             else:
                 print "Installation cancelled. Could not copy web2py app files."
                 exit(1)

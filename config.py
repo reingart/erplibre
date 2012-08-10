@@ -114,7 +114,7 @@ def write_values(data):
         # Duplicated ini file for web2py app to know ini values
         # It is impossible to use this workaround on environments without access
         # to the file system so this would probably raise exceptions.
-        with open(os.path.join(WEB2PY_APP_FOLDER, "private", "webappconfig.ini"), "w") as webapp_config_file:
+        with open(os.path.join(WEB2PY_APP_FOLDER, "private", "config.ini"), "w") as webapp_config_file:
             for name, value in data.iteritems():
                 if isinstance(value, basestring) and name.isupper():
                     # static value
