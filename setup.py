@@ -53,14 +53,15 @@ HELP_TEXT = """
     * --client : Configure as client gui application (used with
     --install)
 
-    * --no_dep : Do not install dependencies (if not specified, the script will
-    ask confirmation for each library installation)
+    * --dep [true/false]: Install dependencies (if true, the script will
+    ask confirmation for each library installation). Defaults to true
 
-    * --no_web2py_app : Do not install the web2py application
-    (used with --install)
+    * --web2py_app [true/false]: Install the web2py application
+    (used with --install). Defaults to true
     
-    * --no_gui : Skip graphical dialogs on installation. Displays
-    the installation options in the terminal (used with --install)
+    * --gui [true/false]: Use graphical dialogs on installation. Displays
+    the installation options in the terminal (used with --install).
+    Defaults to true
     
     * --web2py_path [value] : Absolute path to the local web2py installation
     (used with --install)
@@ -77,6 +78,15 @@ try:
     import readline
 except ImportError:
     print "readline feature not supported for user input"
+
+try:
+    import wx
+    from modules import setup_gui
+    MyFrame = setup_gui.MyFrame
+    GUI = True
+except ImportError:
+    print "wxPython not found. You cannot run the desktop app without wx."
+    GUI = False
 
 # Look for the web2py and gui2py installers
 
@@ -99,76 +109,15 @@ for filename in os.listdir(PRIVATE_FOLDER):
         elif "GUI2PY" in filename.upper():
             GUI2PY_INSTALLER = os.path.join(PRIVATE_FOLDER, filename)
 
-NO_WEB2PY_APP = False
-path_walk = None
+WEB2PY_APP = True
+PATH_WALK = None
 GUI2PY_PATH = None
 WEB2PY_PATH = None
-GUI_BASED = True
 CLIENT = False
 LEGACY_DB = False
 HMAC_KEY = None
 LANGUAGE = ""
-NO_DEP = False
-
-try:
-    import wx
-
-except ImportError:
-    print "wxPython not found. Please install wxPython first."
-    exit(1)
-
-# wxGlade pre-made setup frame
-class MyFrame(wx.Frame):
-    def __init__(self, *args, **kwds):
-        # begin wxGlade: MyFrame.__init__
-        kwds["style"] = wx.DEFAULT_FRAME_STYLE
-        wx.Frame.__init__(self, *args, **kwds)
-
-        self.starting_frame_statusbar = \
-        self.CreateStatusBar(1, 0)
-        self.bitmap_1 = wx.StaticBitmap(self, \
-        -1, wx.Bitmap("images/erplibre-setup-background.png", wx.BITMAP_TYPE_ANY))
-        self.button_start = wx.Button(self, -1, "Install")
-        self.panel = wx.Panel(self, -1)
-        self.count = 0
-        self.gauge = wx.Gauge(self.panel, -1, 50, \
-        (0, 0), (480, 25))
-        self.gauge.SetBezelFace(3)
-        self.gauge.SetShadowWidth(3)
-        self.__set_properties()
-        self.__do_layout()
-        # end wxGlade
-
-    def __set_properties(self):
-        # begin wxGlade: MyFrame.__set_properties
-        self.SetTitle(u"ERP Libre Setup")
-        self.starting_frame_statusbar.SetStatusWidths( \
-        [-1])
-        # statusbar fields
-        starting_frame_statusbar_fields = ["Status bar text"]
-        for i in range(len(starting_frame_statusbar_fields)):
-            self.starting_frame_statusbar.SetStatusText( \
-            starting_frame_statusbar_fields[i], i)
-        # end wxGlade
-
-    def __do_layout(self):
-        # begin wxGlade: MyFrame.__do_layout
-        sizer_1 = wx.BoxSizer(wx.VERTICAL)
-        sizer_2 = wx.BoxSizer(wx.HORIZONTAL)
-
-        sizer_1.Add(self.bitmap_1, 0, 0, 0)
-        sizer_1.Add((20, 20))
-        sizer_2.Add((20, 20), 0, 0, 0)
-        sizer_2.Add(self.button_start, 0, 0, 0)
-        sizer_2.Add((20, 20), 0, 0, 0)
-        sizer_2.Add(self.panel, 0, 0, 0)
-        sizer_1.Add(sizer_2, 1, wx.EXPAND, 0)
-        sizer_1.Add((20, 20))
-
-        self.SetSizer(sizer_1)
-        sizer_1.Fit(self)
-        self.Layout()
-        # end wxGlade
+DEP = True
 
 def create_dirs():
     print "Creating subfolders... "
@@ -208,9 +157,9 @@ def extract(filename, path):
     else:
         print "Could not extract the installer: extension must be .w2p or .zip"
 
-def set_values(web2py_path, gui2py_path, gui_based = GUI_BASED, \
+def set_values(web2py_path, gui2py_path, gui = GUI, \
 client = CLIENT, legacy_db = LEGACY_DB, hmac_key = HMAC_KEY, \
-language = LANGUAGE, no_web2py_app = NO_WEB2PY_APP):
+language = LANGUAGE, web2py_app = WEB2PY_APP):
     
     try:
         login = os.getlogin()
@@ -220,7 +169,7 @@ language = LANGUAGE, no_web2py_app = NO_WEB2PY_APP):
     WEB2PY_PATH = web2py_path
     GUI2PY_PATH = gui2py_path
 
-    if no_web2py_app:
+    if not web2py_app:
         web2py_app_folder = ""
     else:
         web2py_app_folder = os.path.join(WEB2PY_PATH, \
@@ -251,8 +200,8 @@ language = LANGUAGE, no_web2py_app = NO_WEB2PY_APP):
     # present a modal widget with connection string confirmation
     confirm_text = "Please confirm db connection string %s" % ini_values["DB_URI"]
     
-    if gui_based:
-        retCode = wx.MessageBox(confirm_text, "db URI Srinng", wx.YES_NO | wx.ICON_QUESTION)
+    if gui:
+        retCode = wx.MessageBox(confirm_text, "db URI String", wx.YES_NO | wx.ICON_QUESTION)
         if retCode == wx.YES:
             confirm_uri_string = "y"
         else:
@@ -266,7 +215,7 @@ language = LANGUAGE, no_web2py_app = NO_WEB2PY_APP):
         
         prompt_for_db_uri = "Type a valid web2py db connection URI and press Enter"
         
-        if GUI_BASED:
+        if gui:
             new_uri_string = wx.GetTextFromUser(prompt_for_db_uri, caption="Input text", default_value=ini_values["DB_URI"], parent=None)
         else:
             new_uri_string = raw_input(prompt_for_db_uri + " :")
@@ -281,7 +230,7 @@ language = LANGUAGE, no_web2py_app = NO_WEB2PY_APP):
     if hmac_key is None:
         confirm_text = "Do you want to keep the demo hmac key? %s :" % demo_key
         
-        if gui_based:
+        if gui:
             retCode = wx.MessageBox(confirm_text, "HMAC KEY", wx.YES_NO | wx.ICON_QUESTION)
             if retCode == wx.YES:
                 confirm_hmac = "y"
@@ -299,7 +248,7 @@ language = LANGUAGE, no_web2py_app = NO_WEB2PY_APP):
             user_input_loop = True
             while user_input_loop == True:
                 new_random_key=create_hmac_key()
-                if GUI_BASED:
+                if gui:
                     new_hmac = wx.GetTextFromUser(prompt_for_hmac, caption="Input text", default_value=new_random_key, parent=None)
                 else:
                     new_hmac = raw_input(prompt_for_hmac + " " + new_random_key + " (Enter):").strip()
@@ -308,7 +257,7 @@ language = LANGUAGE, no_web2py_app = NO_WEB2PY_APP):
                     # new key requested
                     continue
                 elif new_hmac in (None, ""):
-                    if not gui_based:
+                    if not gui:
                         # terminal input accepts the random key
                         ini_values["HMAC_KEY"] = new_random_key
                         user_input_loop = False
@@ -324,12 +273,6 @@ language = LANGUAGE, no_web2py_app = NO_WEB2PY_APP):
             # demo key
             ini_values["HMAC_KEY"] = demo_key
 
-    # Change db_timeout for postgres connections
-    if "postgres" in ini_values["DB_URI"].lower():
-        # for remote db connection closed issue
-        # ini_values["DB_TIMEOUT"] = 120000
-        pass
-
     # write config values to config.ini
     print "Writing config values to config.ini"
 
@@ -339,7 +282,7 @@ language = LANGUAGE, no_web2py_app = NO_WEB2PY_APP):
 
     # write config values to config.ini
     # for path search purposes mostly
-    if not NO_WEB2PY_APP:
+    if WEB2PY_APP:
         print "Writing config values to web2py app"
         if ini_values["WEB2PY_APP_FOLDER"] != "":
             # TODO: and ...FOLDER has a valid path
@@ -349,7 +292,7 @@ language = LANGUAGE, no_web2py_app = NO_WEB2PY_APP):
 
     # exit with status 0 and message
     print "Installation finished."
-    print "You can run GestionLibre from %s with >python main.py" \
+    print "You can run ERP Libre from %s with >python main.py" \
     % CWD
     
     return True
@@ -359,39 +302,55 @@ def start_install(evt):
     global GUI2PY_PATH
     global WEB2PY_PATH
     global ONE_LEVEL_UP
-    # Install dependencies?
-    if not NO_DEP:
 
+    # Install dependencies?
+    if DEP:
         # set status bar text with message "web2py path"
         starting_frame.SetStatusText( \
         "web2py installation target")
 
         if WEB2PY_PATH is None:
-            WEB2PY_PATH = os.path.join(ONE_LEVEL_UP, "web2py")
+            ddlg_web2py = wx.MessageDialog(None, \
+            "Do you want to install web2py? Choose 'no' to provide web2py location",
+                    'web2py installation', wx.YES | wx.NO)
+
+            install_web2py = ddlg_web2py.ShowModal()
 
             wx.MessageDialog(None, \
-            "Select a web2py installation folder",
+            "Select web2py installation folder",
                     'web2py installation folder', wx.OK).ShowModal()
-
             ddlg_web2py_target = wx.DirDialog(starting_frame, \
             message="web2py installation target", defaultPath=ONE_LEVEL_UP)
-            ddlg_web2py_target.ShowModal()
+            path_choice = ddlg_web2py_target.ShowModal()
+
+            if path_choice == wx.ID_CANCEL:
+                print "No path specified for web2py. Installation failed."
+                exit(1)
+                
             web2py_target = ddlg_web2py_target.GetPath()
 
             if not web2py_target in ["", None]:
-                starting_frame.SetStatusText( \
-                "now copying web2py")
-                extract(WEB2PY_INSTALLER, web2py_target)
-                WEB2PY_PATH = os.path.join(web2py_target, "web2py")
+                if install_web2py == wx.ID_YES:
+                    starting_frame.SetStatusText( \
+                    "now copying web2py")
+                    extract(WEB2PY_INSTALLER, web2py_target)
+                    WEB2PY_PATH = os.path.join(web2py_target, "web2py")
+                else:
+                    WEB2PY_PATH = web2py_target
             else:
-                WEB2PY_PATH = None
+                print "No path specified for web2py. Installation failed."
+                exit(1)
 
         # set status bar text with message "gui2py path"
         starting_frame.SetStatusText( \
         "gui2py installation target")
 
         if GUI2PY_PATH is None:
-            GUI2PY_PATH = os.path.join(ONE_LEVEL_UP, "gui2py")
+            ddlg_gui2py = wx.MessageDialog(None, \
+            "Do you want to install gui2py? Choose 'no' to provide gui2py location",
+                    'gui2py installation', wx.YES | wx.NO)
+
+            install_gui2py = ddlg_gui2py.ShowModal()
 
             wx.MessageDialog(None, \
             "Select a gui2py installation folder",
@@ -399,14 +358,24 @@ def start_install(evt):
 
             ddlg_gui2py_target = wx.DirDialog(starting_frame, \
             message="gui2py installation target", defaultPath=ONE_LEVEL_UP)
-            ddlg_gui2py_target.ShowModal()
+            path_choice = ddlg_gui2py_target.ShowModal()
+            if path_choice == wx.ID_CANCEL:
+                print "No path specified for gui2py. Installation failed."
+                exit(1)
+
             gui2py_target = ddlg_gui2py_target.GetPath()
 
             if not gui2py_target in ["", None]:
-                extract(GUI2PY_INSTALLER, gui2py_target)
-                GUI2PY_PATH = os.path.join(gui2py_target, "gui2py")
+                if install_gui2py == wx.ID_YES:
+                    starting_frame.SetStatusText( \
+                    "now copying gui2py")
+                    extract(GUI2PY_INSTALLER, gui2py_target)
+                    GUI2PY_PATH = os.path.join(gui2py_target, "gui2py")
+                else:
+                    GUI2PY_PATH = gui2py_target
             else:
-                GUI2PY_PATH = None
+                print "No path specified for gui2py. Installation failed."
+                exit(1)
 
     else:
         if WEB2PY_PATH in ("", None):
@@ -451,7 +420,7 @@ def start_install(evt):
                         dlg.Destroy()
                         searching = False
                         starting_frame.Close()
-                        GestionLibreSetup.Exit()
+                        ERPLibreSetup.Exit()
                         exit(1)
                         
         if GUI2PY_PATH in (None, ""):
@@ -492,10 +461,10 @@ def start_install(evt):
                         dlg.Destroy()
                         searching = False
                         starting_frame.Close()
-                        GestionLibreSetup.Exit()
+                        ERPLibreSetup.Exit()
                         exit(1)
 
-    if not NO_WEB2PY_APP:
+    if WEB2PY_APP:
         starting_frame.SetStatusText( \
         "web2py app installation")
         
@@ -515,7 +484,7 @@ def start_install(evt):
                 dlg.Destroy()
                 searching = False
                 starting_frame.Close()
-                GestionLibreSetup.Exit()
+                ERPLibreSetup.Exit()
                 exit(1)
 
             print "Writing web2py app to disk"
@@ -536,8 +505,8 @@ def start_install(evt):
             exit(1)
 
     create_dirs()
-    result = set_values(WEB2PY_PATH, GUI2PY_PATH, gui_based = GUI_BASED, \
-    client = CLIENT, legacy_db = LEGACY_DB, no_web2py_app = NO_WEB2PY_APP)
+    result = set_values(WEB2PY_PATH, GUI2PY_PATH, gui = GUI, \
+    client = CLIENT, legacy_db = LEGACY_DB, web2py_app = WEB2PY_APP)
 
     if result == True:
         starting_frame.gauge.SetValue(50)
@@ -550,9 +519,9 @@ def start_install(evt):
 
 
 def search_folder_path(name):
-    global path_walk
-    if path_walk is None:
-        path_walk = os.walk("/")
+    global PATH_WALK
+    if PATH_WALK is None:
+        PATH_WALK = os.walk("/")
 
     search_loop = True
 
@@ -560,7 +529,7 @@ def search_folder_path(name):
     
     while search_loop:
         try:
-            path_info = path_walk.next()
+            path_info = PATH_WALK.next()
             if name in os.path.basename(path_info[0]) and os.path.isdir(path_info[0]):
                 path = path_info[0]
                 if not path in paths:
@@ -580,7 +549,7 @@ if "HELP" in command_args or "?" in command_args:
 
 elif "INSTALL" in command_args:
     paths = []
-    path_walk = None
+    PATH_WALK = None
     WEB2PY_PATH = None
     GUI2PY_PATH = None
 
@@ -595,13 +564,15 @@ elif "INSTALL" in command_args:
 
         arg_counter += 1
 
-        if arg_name == "NO_GUI":
-            GUI_BASED = False
-            print "No gui mode"
+        if arg_name == "GUI":
+            if sys.argv[arg_counter].upper() in ["N", "NO", "F", "FALSE"]:
+                GUI = False
+                print "No gui mode"
 
-        elif arg_name == "NO_WEB2PY_APP":
-            NO_WEB2PY_APP = True
-            print "web2py app installation disabled"
+        elif arg_name == "WEB2PY_APP":
+            if sys.argv[arg_counter].upper() in ["N", "NO", "F", "FALSE"]:
+                WEB2PY_APP = False
+                print "web2py app installation disabled"
 
         elif arg_name == "WEB2PY_PATH":
             WEB2PY_PATH = sys.argv[arg_counter]
@@ -627,26 +598,28 @@ elif "INSTALL" in command_args:
         elif arg_name == "HMAC_KEY":
             HMAC_KEY = sys.argv[arg_counter]
 
-        elif arg_name == "NO_DEP":
-            NO_DEP = True
+        elif arg_name == "DEP":
+            if sys.argv[arg_counter].upper() in ["N", "NO", "F", "FALSE"]:
+                print "Skip dependencies"
+                DEP = False
 
-    if GUI_BASED:
+    if GUI:
         # start Setup wx window
-        GestionLibreSetup = wx.PySimpleApp(0)
+        ERPLibreSetup = wx.PySimpleApp(0)
         wx.InitAllImageHandlers()
         starting_frame = MyFrame(None, -1, "")
         starting_frame.SetSize((640, 360))
-        GestionLibreSetup.SetTopWindow(starting_frame)
+        ERPLibreSetup.SetTopWindow(starting_frame)
         starting_frame.Bind(wx.EVT_BUTTON, start_install, starting_frame.button_start)
         starting_frame.SetStatusText("ERP Libre installation utility. Press Install to start")
         starting_frame.Show()
-        GestionLibreSetup.MainLoop()
+        ERPLibreSetup.MainLoop()
 
 
     else:
         # Installation without wxPython Dialogs
         # Install dependencies?
-        if not NO_DEP:
+        if DEP:
             if WEB2PY_PATH is None:
                 web2py_target = ONE_LEVEL_UP
                 web2py_target = raw_input("Press Enter to install web2py to %s or type a new path. Type N for no installation:" % web2py_target)
@@ -667,7 +640,7 @@ elif "INSTALL" in command_args:
             # Search path for web2py installation
 
             # reset os path walk
-            path_walk = None
+            PATH_WALK = None
             the_folder = None
             paths = []
 
@@ -706,9 +679,9 @@ elif "INSTALL" in command_args:
                     exit(1)
 
         # If web2py applications folder found, request write confirmation.
-        if not NO_WEB2PY_APP:
+        if WEB2PY_APP:
             if raw_input(\
-            "Please confirm GestionLibreApp installation at %s (y/n):" \
+            "Please confirm ERP Libre App installation at %s (y/n):" \
             % os.path.join(WEB2PY_PATH, "applications", WEB2PY_APP_NAME)) in ["y", "Y"]:
                 # If write confirmation,
                 # copy web2py.app.erplibre.w2p files
@@ -733,7 +706,7 @@ elif "INSTALL" in command_args:
         if GUI2PY_PATH in ["N", None]:
             # Search path for gui2py installation
             # reset os path walk
-            path_walk = None
+            PATH_WALK = None
             the_folder = None
             paths = []
 
@@ -770,8 +743,8 @@ elif "INSTALL" in command_args:
                     exit(1)
                     
         create_dirs()
-        result = set_values(WEB2PY_PATH, GUI2PY_PATH, gui_based = GUI_BASED, \
-        client = CLIENT, legacy_db = LEGACY_DB, no_web2py_app = NO_WEB2PY_APP)
+        result = set_values(WEB2PY_PATH, GUI2PY_PATH, gui = GUI, \
+        client = CLIENT, legacy_db = LEGACY_DB, web2py_app = WEB2PY_APP)
         
         if result == True:
             exit(0)

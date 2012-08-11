@@ -19,10 +19,9 @@ and type this two commands:
 cd <unzipped folder path>
 ./install.py
 
-if ERP Libree is being installed in
+if ERP Libre is being installed in
 a client machine, type this instead:
 ./install_client.py
-
 
 # Application dependencies
 
@@ -35,8 +34,8 @@ web2py - http://www.web2py.com *
 gui2py -http://code.google.com/p/gui2py/ *
 
 * Both web2py and gui2py are bundled with the .zip installation and they will
-automatically install unless --no_dep is passed when running the install script.
-If setup.py is run with the --no_dep argument, the installation
+automatically install unless --dep false is passed when running the install script.
+If setup.py is run with the --dep false argument, the installation
 script will ask for pre-installed web2py and gui2py folders
 (they can be specified with --web2py_path <path> and --gui2py_path <path>.)
 
@@ -54,7 +53,7 @@ From a terminal run:
 >python setup.py --install
 
 
-# Alternative no_gui installation
+# Alternative no gui installation
 
 There is an installation mode wich disables the gui interface for install ERP Libree in case you
 cannot run a desktop environment. The target system still needs the before mentioned dependencies (wx, web2py and gui2py)
@@ -62,4 +61,5 @@ and the script will exit with an error code if they are not satisfied. Note that
 
 from the erplibre unzipped/downloaded folder run:
 
->python setup.py --install --no_gui
+>python setup.py --install --gui false
+
