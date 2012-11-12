@@ -435,7 +435,12 @@ if __name__ == "__main__":
 
     # print "Importing web2py gluon"
     # from gluon import *
-    import gluon
+    try:
+      import gluon
+    except ImportError as e:
+      print e.message
+      print "Have you run the install? To install run ./install.py"
+      exit(1)
     from gluon.html import URL
     from gluon.html import MENU
     from gluon.dal import DAL
