@@ -454,8 +454,10 @@ if __name__ == "__main__":
     # print "More config setup"
 
     # load web2py app env object for GestionLibre
-    config.env = gluon.shell.env(config.WEB2PY_APP_NAME, \
-    dir=config.WEB2PY_FOLDER)
+
+    config.env = gluon.shell.env(config.APP_NAME,
+                                 dir=config.GUI2PY_APP_FOLDER)
+
     config.current = config.env
     config.request  = config.env["request"]
     config.response  = config.env["response"]

@@ -591,6 +591,7 @@ elif "INSTALL" in command_args:
 
         elif arg_name == "CLIENT":
             CLIENT = True
+            WEB2PY_APP = False
 
         elif arg_name == "LEGACY_DB":
             LEGACY_DB = True
